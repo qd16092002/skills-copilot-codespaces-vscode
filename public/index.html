@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fetch Timekeeping History</title>
+    </head>
+    <body>
+        <h1>Chấm công</h1>
+        <script>
+            // Password prompt
+            const correctPassword = "123123123";
+
+            const password = prompt("Nhập mật khẩu để truy cập trang này:");
+
+            if (password !== correctPassword) {
+                alert("Mật khẩu không đúng. Truy cập bị từ chối.");
+                window.location.href = "about:blank"; // Redirecting to a blank page
+            } else {
+                // The content will only be displayed if the password is correct
+                const content = `
+                    <div style="display: grid; gap: 60px; align-content: space-around">
+                        <button style="height: 60px; width: 100%;" id="fetchChungButton">Chấm công cho Chung</button>
+                        <button style="height: 60px; width: 100%;" id="fetchDaoButton">Chấm công cho Đạo</button>
+                        <button style="height: 60px; width: 100%;" id="fetchMinhButton">Chấm công cho Minh</button>
+                    </div>
+                `;
+                document.body.innerHTML = content;
+            }
+
+            // Hàm gửi yêu cầu POST, nhận thông tin người dùng (user)
+            const chamcongChung = async () => {
+                const confirmAction = window.confirm("Bạn có chắc chắn muốn chấm công cho Chung?");
+                if (!confirmAction) return;
+
+                try {
+                    const response = await fetch('http://192.168.1.2:3012/timekeepings', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Accept-Encoding':'gzip, deflate',
+                            'Accept-Language':'vi',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODIxNCwianRpIjoiOTQzZDI2MTUtODU2Ni00NmVlLTgyNDYtMTFhNTAwMjY1ZTk3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjYwLCJkZXBhcnRtZW50X2lkIjoxLCJkZXBhcnRtZW50X2NvZGUiOiJQQjEiLCJwb3NpdGlvbl9jb2RlIjoiTkhBTl9WSUVOIn0sIm5iZiI6MTc0ODgyODIxNCwiZXhwIjoxNzgwMzY0MjE0fQ.h3xv8MqTo0XAxX_3OVB3DJi9FJiNFf88PzIDtLlEuqY',
+                            'Referer': 'http://192.168.1.2:3012/',
+                            'Cookie': 'AIPT_WEB_TIMEKEEPING_TOKEN=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODIxNCwianRpIjoiOTQzZDI2MTUtODU2Ni00NmVlLTgyNDYtMTFhNTAwMjY1ZTk3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjYwLCJkZXBhcnRtZW50X2lkIjoxLCJkZXBhcnRtZW50X2NvZGUiOiJQQjEiLCJwb3NpdGlvbl9jb2RlIjoiTkhBTl9WSUVOIn0sIm5iZiI6MTc0ODgyODIxNCwiZXhwIjoxNzgwMzY0MjE0fQ.h3xv8MqTo0XAxX_3OVB3DJi9FJiNFf88PzIDtLlEuqY; token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODIxNCwianRpIjoiOTQzZDI2MTUtODU2Ni00NmVlLTgyNDYtMTFhNTAwMjY1ZTk3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjYwLCJkZXBhcnRtZW50X2lkIjoxLCJkZXBhcnRtZW50X2NvZGUiOiJQQjEiLCJwb3NpdGlvbl9jb2RlIjoiTkhBTl9WSUVOIn0sIm5iZiI6MTc0ODgyODIxNCwiZXhwIjoxNzgwMzY0MjE0fQ.h3xv8MqTo0XAxX_3OVB3DJi9FJiNFf88PzIDtLlEuqY',
+                            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1'
+                        },
+                        body: JSON.stringify({
+                            "approve_id": null,
+                            "description": null,
+                            "freetime": null,
+                            "status_approve": null,
+                            "status_keeping": 1,
+                            "type_keeping": 2,
+                            "user_id": 60
+                        })
+                    });
+
+                    if (!response.ok) {
+                        console.error('Error:', response.status);
+                    } else {
+                        const responseData = await response.json();
+                        console.log('Response:', responseData);
+                    }
+                } catch (error) {
+                    console.error('Error occurred while fetching data:', error);
+                }
+            };
+
+            const chamcongDao = async () => {
+                const confirmAction = window.confirm("Bạn có chắc chắn muốn chấm công cho Đạo?");
+                if (!confirmAction) return;
+
+                try {
+                    const response = await fetch('http://192.168.1.2:3012/timekeepings', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NzMwNDMzMSwianRpIjoiM2Q4ZTYzMWItZGYzZi00NTZmLTg0ZGEtMzljN2I3ZDAxODcyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjExNywiZGVwYXJ0bWVudF9pZCI6MSwiZGVwYXJ0bWVudF9jb2RlIjoiUEIxIiwicG9zaXRpb25fY29kZSI6Ik5IQU5fVklFTiJ9LCJuYmYiOjE3NDczMDQzMzEsImV4cCI6MTc3ODg0MDMzMX0.O6-gWFJuH2Tfan8HrMxdPSSEEnH6XRhtqzv8DwCxpi0',
+                            'Referer': 'http://192.168.1.2:3012/',
+                            'Cookie': 'AIPT_WEB_TIMEKEEPING_TOKEN=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NzMwNDMzMSwianRpIjoiM2Q4ZTYzMWItZGYzZi00NTZmLTg0ZGEtMzljN2I3ZDAxODcyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjExNywiZGVwYXJ0bWVudF9pZCI6MSwiZGVwYXJ0bWVudF9jb2RlIjoiUEIxIiwicG9zaXRpb25fY29kZSI6Ik5IQU5fVklFTiJ9LCJuYmYiOjE3NDczMDQzMzEsImV4cCI6MTc3ODg0MDMzMX0.O6-gWFJuH2Tfan8HrMxdPSSEEnH6XRhtqzv8DwCxpi0',
+                            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1'
+                        },
+                        body: JSON.stringify({
+                            "approve_id": null,
+                            "description": null,
+                            "freetime": null,
+                            "status_approve": null,
+                            "status_keeping": 1,
+                            "type_keeping": 2,
+                            "user_id": 117
+                        })
+                    });
+
+                    if (!response.ok) {
+                        console.error('Error:', response.status);
+                    } else {
+                        const responseData = await response.json();
+                        console.log('Response:', responseData);
+                    }
+                } catch (error) {
+                    console.error('Error occurred while fetching data:', error);
+                }
+            };
+
+            const chamcongMinh = async () => {
+                const confirmAction = window.confirm("Bạn có chắc chắn muốn chấm công cho Minh?");
+                if (!confirmAction) return;
+
+                try {
+                    const response = await fetch('http://192.168.1.2:3012/timekeepings', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Accept-Encoding':'gzip, deflate',
+                            'Accept-Language':'vi',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODQ4NCwianRpIjoiNTA4OWMwNmYtY2JlYi00YzVkLTg4OGEtODZkMDcwZGI4YWVjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjEyMiwiZGVwYXJ0bWVudF9pZCI6MSwiZGVwYXJ0bWVudF9jb2RlIjoiUEIxIiwicG9zaXRpb25fY29kZSI6Ik5IQU5fVklFTiJ9LCJuYmYiOjE3NDg4Mjg0ODQsImV4cCI6MTc4MDM2NDQ4NH0.jgtaHODUn2bAIS8LpuhxUEmo6Mk2FKxS4-dnZSjZZEQ',
+                            'Referer': 'http://192.168.1.2:3012/',
+                            'Cookie': 'AIPT_WEB_TIMEKEEPING_TOKEN=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODQ4NCwianRpIjoiNTA4OWMwNmYtY2JlYi00YzVkLTg4OGEtODZkMDcwZGI4YWVjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjEyMiwiZGVwYXJ0bWVudF9pZCI6MSwiZGVwYXJ0bWVudF9jb2RlIjoiUEIxIiwicG9zaXRpb25fY29kZSI6Ik5IQU5fVklFTiJ9LCJuYmYiOjE3NDg4Mjg0ODQsImV4cCI6MTc4MDM2NDQ4NH0.jgtaHODUn2bAIS8LpuhxUEmo6Mk2FKxS4-dnZSjZZEQ; token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0ODgyODQ4NCwianRpIjoiNTA4OWMwNmYtY2JlYi00YzVkLTg4OGEtODZkMDcwZGI4YWVjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOjEyMiwiZGVwYXJ0bWVudF9pZCI6MSwiZGVwYXJ0bWVudF9jb2RlIjoiUEIxIiwicG9zaXRpb25fY29kZSI6Ik5IQU5fVklFTiJ9LCJuYmYiOjE3NDg4Mjg0ODQsImV4cCI6MTc4MDM2NDQ4NH0.jgtaHODUn2bAIS8LpuhxUEmo6Mk2FKxS4-dnZSjZZEQ',
+                            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1'
+                        },
+                        body: JSON.stringify({
+                            "approve_id": null,
+                            "description": null,
+                            "freetime": null,
+                            "status_approve": null,
+                            "status_keeping": 1,
+                            "type_keeping": 2,
+                            "user_id": 122
+                        })
+                    });
+
+                    if (!response.ok) {
+                        console.error('Error:', response.status);
+                    } else {
+                        const responseData = await response.json();
+                        console.log('Response:', responseData);
+                    }
+                } catch (error) {
+                    console.error('Error occurred while fetching data:', error);
+                }
+            };
+
+            // Gắn sự kiện click vào các nút và gọi hàm tương ứng
+            document.getElementById('fetchChungButton').addEventListener('click', () => chamcongChung());
+            document.getElementById('fetchDaoButton').addEventListener('click', () => chamcongDao());
+            document.getElementById('fetchMinhButton').addEventListener('click', () => chamcongMinh());
+        </script>
+    </body>
+</html>
