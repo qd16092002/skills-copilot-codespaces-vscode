@@ -39,7 +39,7 @@ const fetchTimeKeepingHistory = async () => {
 const calculateTimeUntilNextRequest = () => {
     const now = new Date();
     const targetTime = new Date(now);
-    targetTime.setHours(8, 14, 0, 0);
+    targetTime.setHours(8, 8, 0, 0);
 
     if (now > targetTime) {
         targetTime.setDate(targetTime.getDate() + 1);
